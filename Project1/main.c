@@ -19,14 +19,17 @@ fisc=fopen(argv[1],"r");                           //file pointer to open .isc f
 Max=0; 
 Max=ReadIsc(fisc,graph);                 //read .isc file and return index of last node in graph formed
 fclose(fisc);                            //close file pointer for .isc file
-PrintCircuit(graph,Max);                 //print all members of graph structure
+// PrintCircuit(graph,Max);                 //print all members of graph structure
+CountPri(graph, Max, &Npi, &Npo); 
 
 //Read the .vec file and store the information in  vector structure
-
-
-
-
- 
+int patternList[Mpt][Mpi];
+fvec = fopen(argv[2],"r");
+ReadPattern(fvec, patternList, Npi);
+fclose(fvec);
+fres = fopen(argv[3],"w");
+simulateLogic(graph, patternList, Max, Npi, fres);
+fclose(fres);
 
 //Opt=0; 
 //Opt=atoi(argv[3]);                          //getting the option from terminal for xval

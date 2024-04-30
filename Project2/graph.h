@@ -17,7 +17,7 @@ Constant Declarations
 // VARIOUS CONSTANTS
 #define Mfnam      20			// max size for a file name
 #define Mnod    15000 		        // max number of nodes in a graph/node
-#define Mlin      500			// max size of characters in a line
+#define Mlin      200			// max size of characters in a line
 #define Mnam       25			// max size of a node name
 #define Mtyp       10			// max type of nodes/gates
 #define Mout       16		        // max node out degree (Nfo)
@@ -54,15 +54,15 @@ typedef struct NODE_type
   LIST *Fin,*Fot;                      //fanin members, fanout members 
 } NODE;
 //3.Stucture declaration for PATTERN
-
-
-
-
+typedef struct PATTERN_type
+{
+ char piv[Mpi];    //primary input vector(size is not declared)
+} PATTERN;
 //4.Stucture declaration for FAULT
-
-
-
-
+typedef struct FAULT_type
+{
+ int Snod,Sval;      //stuck_at_node,stuck_at_value
+} FAULT;
 /***************************************************************************************************************************
 Functions in given.c
 ****************************************************************************************************************************/
@@ -80,16 +80,23 @@ void InitializeCircuit(NODE *,int);
 int AssignType(char *);
 void PrintCircuit(NODE *,int);
 void ClearCircuit(NODE *,int);
-void CountPri(NODE *,int,int *,int *);
 /***************************************************************************************************************************
  PATTERN Structure Functions
 ****************************************************************************************************************************/
 int ReadPattern(FILE *, int [Mpt][Mpi], int);
 /***************************************************************************************************************************
+ FAULT Structure Functions
+****************************************************************************************************************************/
+int ReadFaultS(FILE *,FAULT *);
+/***************************************************************************************************************************
 User Defined Functions in user.c
 ****************************************************************************************************************************/
-void simulateLogic(NODE *, int [Mpt][Mpi], int, int, FILE *);
-int andOperation(NODE *, LIST *);
-int orOperation(NODE *, LIST *);
+// void simulateLogic(NODE *, int [Mpt][Mpi], int, int, FILE *);
+int andOperation(NODE *, LIST *, int);
+int orOperation(NODE *, LIST *,int);
 int xorOperation(NODE *, LIST *);
+void simulateLogic(NODE * , int , int [Mpt][Mpi], int, int , int , int ,int, FILE *);
+void runSimulator(NODE *, int [Mpt][Mpi], int, FAULT *, int, int , int ,int, FILE *);
+int faultInjection(NODE* ,int , int);
+void printOutputs(char* , char* , FILE* ,int );
 /****************************************************************************************************************************/
